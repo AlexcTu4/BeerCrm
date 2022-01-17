@@ -6,10 +6,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Component from 'nuxt-class-component'
 
-export default Vue.extend({
+@Component
+export default class Header extends Vue{
 
-})
+}
 </script>
 <style lang="scss" module>
 @import "assests/style/global";

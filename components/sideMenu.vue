@@ -6,10 +6,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import Component from 'nuxt-class-component'
 
-export default Vue.extend({
+@Component
+export default class SideMenu extends Vue{
 
-})
+}
 </script>
 <style module>
   .side{
