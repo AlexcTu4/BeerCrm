@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.main">
-    aaaaaaaaa
+    recipes
   </div>
 </template>
 
@@ -12,14 +12,15 @@ import Component from 'nuxt-class-component'
   layout: 'main',
 })
 
-export default class Index extends Vue{
-
+export default class Recipes extends Vue{
+  mounted():void{
+    console.log(this.$route)
+  }
 }
 
 </script>
 <style lang="scss" module>
-@import "assets/style/global";
-  .main{
-    background: $main-additional-color;
-  }
+.main{
+  background: $main-additional-color;
+}
 </style>
