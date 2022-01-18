@@ -16,6 +16,7 @@ export default class Header extends Vue{
     return this.$store.state.main.links.find((item: ILink) => item.name === this.$route.name)?.title
   }
   mounted(): void {
+    
     // const auth = getModule(Auth, this.$store);
     // const test = this.$store.dispatch('main/getCrms');
     const response = this.$axios.$get('/api/crms');
