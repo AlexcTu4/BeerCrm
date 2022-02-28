@@ -1,6 +1,5 @@
 
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import CRM from '~/plugins/CRM'
 @Module({
   name: 'main',
   stateFactory: true,
@@ -43,12 +42,8 @@ export default class MainModule extends VuexModule {
     },
   ]
 
-
   @Action({ rawError: true })
-  getCrms(): any {
-
-    console.log(CRM);
+  getContacts(): void {
+    console.log('111111111');
   }
-
-
 }

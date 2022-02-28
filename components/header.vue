@@ -7,8 +7,10 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'nuxt-class-component'
-import Auth from '@/store/main'
-import { getModule } from 'vuex-module-decorators';
+import { Action } from "vuex-class";
+import { getModule } from "vuex-module-decorators";
+import contacts from "@/store/contacts";
+
 
 @Component
 export default class Header extends Vue{
@@ -16,14 +18,7 @@ export default class Header extends Vue{
     return this.$store.state.main.links.find((item: ILink) => item.name === this.$route.name)?.title
   }
   mounted(): void {
-    
-    // const auth = getModule(Auth, this.$store);
-    // const test = this.$store.dispatch('main/getCrms');
-    const response = this.$axios.$get('/api/crms');
-    response.then((resp) => {
-      console.log(resp)
-    })
-    console.log( response);
+
   }
 }
 </script>

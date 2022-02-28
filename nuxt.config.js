@@ -23,7 +23,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-
+    '@/plugins/CRM.ts',
+    '@/plugins/contact.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,6 +53,7 @@ export default {
     'bootstrap-vue/nuxt',
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     '@nuxtjs/auth-next',
     '@nuxtjs/style-resources',
     'nuxt-route-meta'
@@ -64,7 +66,11 @@ export default {
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:8000'
+    proxy: true
+  },
+  proxy: {
+    '/api/crms': { target: 'http://localhost:8000/api/crms', pathRewrite: {'^/api/crms': ''} },
+    '/api/contacts': { target: 'http://localhost:8000/api/contacts', pathRewrite: {'^/api/contacts': ''} }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

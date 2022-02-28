@@ -2,12 +2,12 @@ import {AxiosError, AxiosRequestConfig} from "axios";
 
 export default ({ $axios } : any, inject : any) => {
   // Create a custom axios instance
-  const CRM = $axios.create({
-    baseURL: '/api/crms',
+  const CONTACTS = $axios.create({
+    baseURL: '/api/contacts',
     timeout: 60000
   })
 
-  CRM.interceptors.request.use(
+  CONTACTS.interceptors.request.use(
     (config: AxiosRequestConfig) => {
       // store.dispatch('SET_GLOBAL_LOADING', true);
       console.log(config)
@@ -21,6 +21,6 @@ export default ({ $axios } : any, inject : any) => {
   );
 
   // Inject to context as $api
-  inject('CRM', CRM)
+  inject('CONTACTS', CONTACTS)
 }
 
