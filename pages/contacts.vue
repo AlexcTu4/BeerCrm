@@ -1,9 +1,9 @@
 <template>
   <div :class="$style.main">
-    <SmartTable
-      :columns="columnNames"
-      :data="contacts"
-    />
+<!--    <SmartTable-->
+<!--      :columns="columnNames"-->
+<!--      :data="contacts"-->
+<!--    />-->
     <b-table striped hover :items="contacts" ></b-table>
   </div>
 </template>
@@ -14,13 +14,13 @@ import Component from 'nuxt-class-component'
 import {getModule} from "vuex-module-decorators";
 import contacts from "~/store/contacts";
 import { mapState} from 'vuex';
-import SmartTable from '~/components/BaseComponents/SmartTable'
+// import SmartTable from '~/components/BaseComponents/SmartTable'
 import {ContactsColumnNamesTable} from "~/types/ContactsDataTable";
 
 @Component({
   layout: 'main',
   components:{
-    SmartTable
+    // SmartTable
   },
   computed: {
     ...mapState('contacts', [
