@@ -1,0 +1,20 @@
+export interface IColumnTable {
+  key: string,
+  label?: string,
+  headerTitle?: string,
+  class?: string,
+  formatter?: void | string,
+  sortable? : boolean,
+  sortKey? : string,
+  sortDirection? : 'asc' | 'desc' | 'last',
+  sortByFormatted? : boolean | void,
+  filterByFormatted?: boolean | void,
+  tdClass?: string | Array<string>,
+  thClass?: string | Array<string>,
+  thStyle?: CSSStyleSheet,
+  variant?: 'active' | 'success' |  'info' | 'warning' | 'danger' | 'dark',
+  tdAttr?: void | object,
+  thAttr?: void | object,
+  isRowHeader?: boolean,
+  stickyColumn?: boolean
+}

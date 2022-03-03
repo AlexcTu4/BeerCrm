@@ -1,6 +1,11 @@
 <template>
   <div :class="$style.header">
-    {{ title }}
+    <div
+    :class="$style.title"
+    >
+      {{ title }}
+    </div>
+
   </div>
 </template>
 
@@ -27,5 +32,10 @@ export default class Header extends Vue{
   .header{
     background: $second-color;
     width: 100%;
+    .title{
+      font-size: 22px;
+      font-weight: bold;
+    }
   }
+
 </style>

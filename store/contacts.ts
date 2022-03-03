@@ -1,6 +1,7 @@
 
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import {AxiosRequestConfig} from "axios";
+import {IContacts} from "~/types/ContactsDataTable";
 @Module({
   name: 'contacts',
   stateFactory: true,
@@ -11,10 +12,10 @@ import {AxiosRequestConfig} from "axios";
 
 export default class ContactsModule extends VuexModule {
 
-  contacts = null;
+  contacts: IContacts = {data: null, info:null};
+
   @Mutation
   setContacts(contacts: any): void {
-
     this.contacts = contacts;
   }
 
@@ -25,7 +26,6 @@ export default class ContactsModule extends VuexModule {
     const response = await this.store.$CONTACTS({
       method: 'GET'
     });
-    console.log(response.data);
     if(response.data){
       this.setContacts(response.data);
     }

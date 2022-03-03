@@ -5,9 +5,11 @@ $main-additional-color: #294B94;
 $second-additional-color: #719431;
 
 $additional-color: #E07F6C;
-
+$BasePaddingLeft: 20px;
 body{
   font-family: Tahoma, Geneva, sans-serif;
+  box-sizing: border-box;
+  height: 100vh;
 }
 
 a{

@@ -1,4 +1,4 @@
-export interface ContactsDataTable {
+interface IContactsDataTable {
   id: number,
   first_name: string,
   last_name: string,
@@ -7,8 +7,11 @@ export interface ContactsDataTable {
   post: string,
   description: string
 }
-export interface ContactsColumnNamesTable {
-  entity: string,
-  name: string
+interface IContactsColumnNamesTable {
+  [index: string]: string;
+}
+export interface IContacts {
+  data: IContactsDataTable[] | null,
+  info: IContactsColumnNamesTable | null
 }
 

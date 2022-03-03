@@ -49,7 +49,6 @@ export default class SideMenu extends Vue{
     width: 260px;
     background: $main-color;
     box-shadow: 1px 0 5px #505050;
-    margin-right: 20px;
     .logo{
       width: 100%;
 
