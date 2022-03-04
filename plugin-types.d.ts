@@ -7,3 +7,7 @@ declare module 'vue/types/vue' {
     $CONTACTS: $axios
   }
 }
+declare module "*.vue" {
+  import Vue from 'vue'
+  export default Vue
+}

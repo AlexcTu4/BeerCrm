@@ -6,14 +6,20 @@
 <!--      :columns="columnNames"-->
 <!--      :data="contacts"-->
 <!--    />-->
-    <b-table
-      striped
-      hover
-      :class="$style.table"
-      :items="contacts.data"
-      :fields="columns"
+    <div
+      :class="$style.tableWrap"
     >
-    </b-table>
+      <SmartTable
+        :columns="columns"
+        :data="contacts.data"
+        :btnDelete="true"
+        :btnSave="true"
+        :btnEdit="true"
+        @save="saveContact"
+        @delete="deleteContact"
+      />
+    </div>
+
   </div>
 </template>
 
@@ -23,14 +29,14 @@ import Component from 'nuxt-class-component'
 import {getModule} from "vuex-module-decorators";
 import contacts from "~/store/contacts";
 import { mapState} from 'vuex';
-// import SmartTable from '~/components/BaseComponents/SmartTable'
+import SmartTable from '~/components/BaseComponents/SmartTable.vue';
 import {IContacts} from "~/types/ContactsDataTable";
 import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
 
 @Component({
   layout: 'main',
   components:{
-    // SmartTable
+    SmartTable
   },
   computed: {
     ...mapState('contacts', [
@@ -45,8 +51,19 @@ export default class Contacts extends Vue{
     //@ts-ignore
     this.contacts.info?.forEach((item) =>{
       fields.push({...item, sortable: true});
+    });
+    fields.push({
+      key: 'btn',
+      label: 'Действия',
+      sortable: false
     })
     return fields;
+  }
+  saveContact(data: any): void {
+    console.log(data)
+  }
+  deleteContact(data: any): void {
+    console.log(data)
   }
   async mounted(): Promise<any>{
     getModule(contacts, this.$store);
@@ -58,9 +75,15 @@ export default class Contacts extends Vue{
 <style lang="scss" module>
 .main{
   width: 100%;
-  .table{
+  .tableWrap{
+    padding: 20px;
     background: #fff;
     margin-top: -60px;
+    border-radius: 10px;
+    .table{
+
+    }
   }
+
 }
 </style>

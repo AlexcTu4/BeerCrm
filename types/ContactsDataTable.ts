@@ -1,13 +1,14 @@
-interface IContactsDataTable {
+export interface IContactsDataTable {
   id: number,
   first_name: string,
   last_name: string,
   patronymic?: string,
+  company: string,
   phone: string,
   post: string,
   description: string
 }
-interface IContactsColumnNamesTable {
+export interface IContactsColumnNamesTable {
   [index: string]: string;
 }
 export interface IContacts {

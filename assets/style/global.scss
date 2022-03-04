@@ -2,7 +2,7 @@ $main-color: #5581E0;
 $second-color: #A8E03F;
 
 $main-additional-color: #294B94;
-$second-additional-color: #719431;
+$second-additional-color: #80bb16;
 
 $additional-color: #E07F6C;
 $BasePaddingLeft: 20px;
@@ -18,4 +18,7 @@ a{
 a:hover{
   color: #000;
   text-decoration: none;
+}
+.vue-phone-number-input {
+  width: 100%;
 }

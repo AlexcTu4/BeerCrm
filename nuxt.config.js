@@ -24,7 +24,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     '@/plugins/CRM.ts',
-    '@/plugins/contact.ts'
+    '@/plugins/contact.ts',
+    '@/plugins/validation.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -45,7 +46,8 @@ export default {
     component: 'fa',
     icons:{
       solid:true,
-    }
+      regular: true
+    },
   },
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -56,7 +58,7 @@ export default {
     '@nuxtjs/proxy',
     '@nuxtjs/auth-next',
     '@nuxtjs/style-resources',
-    'nuxt-route-meta'
+    'nuxt-route-meta',
   ],
   transpileDependencies: [
     'vuex-module-decorators'
