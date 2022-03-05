@@ -21,6 +21,6 @@ export default class Recipes extends Vue{
 </script>
 <style lang="scss" module>
 .main{
-  background: $main-additional-color;
+  z-index: 1000;
 }
 </style>

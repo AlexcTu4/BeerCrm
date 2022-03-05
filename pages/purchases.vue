@@ -21,6 +21,6 @@ export default class Purchases extends Vue{
 </script>
 <style lang="scss" module>
 .main{
-  background: $main-additional-color;
+  z-index: 1000;
 }
 </style>

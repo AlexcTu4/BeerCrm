@@ -3,18 +3,21 @@
     <sideMenu
       :class="$style.side"
     />
-    <div :class="$style.main">
+    <div
+      :class="$style.main"
+
+    >
       <Header
         :class="$style.header"
       />
-      <div
-        :class="$style.content"
-      >
-        <nuxt/>
-      </div>
-      <Footer
-        :class="$style.footer"
-      />
+        <div
+          :class="$style.content"
+        >
+          <nuxt/>
+        </div>
+        <Footer
+          :class="$style.footer"
+        />
     </div>
   </div>
 </template>
@@ -42,14 +45,16 @@ export default class Main extends Vue{
     .main{
       width: 100%;
       height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       .header{
         z-index: 900;
-        padding: 20px 0 60px $BasePaddingLeft;
+        padding: 20px 0 7vw $BasePaddingLeft;
       }
       .content{
         width: 100%;
-        z-index: 800;
-        height: calc(100% - 146px);
+        height: 100%;
         padding: $BasePaddingLeft;
         background: $main-additional-color;
         display: flex;

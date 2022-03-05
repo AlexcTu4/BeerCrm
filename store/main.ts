@@ -1,5 +1,6 @@
 
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import {IBaseModalData} from "~/types/BaseTypes/BaseModalData";
 @Module({
   name: 'main',
   stateFactory: true,
@@ -41,6 +42,52 @@ export default class MainModule extends VuexModule {
       title: 'Контакты',
     },
   ]
+  private modalData: IBaseModalData  = {
+    title: '',
+    show: false,
+    data: null,
+    fields: null
+  };
+  @Mutation
+  TOGGLE_EDIT_MODAL(): void {
+    this.modalData.show = !this.modalData.show;
+  }
+
+  @Mutation
+  SET_MODAL_PHONE(value: string): void {
+    console.log(value);
+    if(this.modalData.data){
+      this.modalData.data.phone = value;
+    }
+    console.log(this.modalData)
+  }
+  @Mutation
+  SET_MODAL_DATA(payload: {value : any, field: string}): void {
+    if(this.modalData.data){
+      //@ts-ignore
+      this.modalData.data[payload.field] = payload.value;
+    }
+
+    console.log(this.modalData.data)
+  }
+
+  @Mutation
+  SET_EDIT_MODAL(payload: IBaseModalData): void {
+    console.log(payload)
+    this.modalData = payload;
+  }
+
+  @Mutation
+  CLEAR_EDIT_MODAL(): void {
+    this.modalData = {
+      title: '',
+      show: false,
+      data: null,
+      fields: null
+    }
+    console.log(this.modalData);
+  }
+
 
   @Action({ rawError: true })
   getContacts(): void {

@@ -1,3 +1,5 @@
+import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
+
 export interface IContactsDataTable {
   id: number,
   first_name: string,
@@ -13,6 +15,6 @@ export interface IContactsColumnNamesTable {
 }
 export interface IContacts {
   data: IContactsDataTable[] | null,
-  info: IContactsColumnNamesTable | null
+  info: IColumnTable[] | null
 }
 

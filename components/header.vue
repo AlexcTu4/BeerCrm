@@ -32,9 +32,21 @@ export default class Header extends Vue{
   .header{
     background: $second-color;
     width: 100%;
+    position: relative;
     .title{
       font-size: 22px;
       font-weight: bold;
+    }
+    &:after{
+      content: '';
+      background: $second-color;
+      height: 130px;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      transform: translateY(10px) skewY(-4deg);
+      transform-origin: right;
+      z-index: 900;
     }
   }
 

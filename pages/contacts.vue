@@ -18,6 +18,7 @@
         @save="saveContact"
         @delete="deleteContact"
       />
+      <BaseEditModal/>
     </div>
 
   </div>
@@ -30,13 +31,16 @@ import {getModule} from "vuex-module-decorators";
 import contacts from "~/store/contacts";
 import { mapState} from 'vuex';
 import SmartTable from '~/components/BaseComponents/SmartTable.vue';
-import {IContacts} from "~/types/ContactsDataTable";
+import BaseEditModal from '~/components/BaseComponents/BaseEditModal.vue';
+import {IContacts} from "~/types/IEntity/ContactsDataTable";
 import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
+import {IContactsColumnNamesTable} from "~/types/IEntity/ContactsDataTable";
 
 @Component({
   layout: 'main',
   components:{
-    SmartTable
+    SmartTable,
+    BaseEditModal
   },
   computed: {
     ...mapState('contacts', [
@@ -46,10 +50,10 @@ import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
 })
 
 export default class Contacts extends Vue{
+  private contacts!: IContacts;
   get columns(): any {
     let fields : IColumnTable[] = [];
-    //@ts-ignore
-    this.contacts.info?.forEach((item) =>{
+    this.contacts.info?.forEach((item : IColumnTable) =>{
       fields.push({...item, sortable: true});
     });
     fields.push({
@@ -67,7 +71,7 @@ export default class Contacts extends Vue{
   }
   async mounted(): Promise<any>{
     getModule(contacts, this.$store);
-    await this.$store.dispatch('contacts/getContacts');
+    await this.$store.dispatch('contacts/GET_CONTACTS');
   }
 }
 
@@ -75,6 +79,7 @@ export default class Contacts extends Vue{
 <style lang="scss" module>
 .main{
   width: 100%;
+  z-index: 1000;
   .tableWrap{
     padding: 20px;
     background: #fff;

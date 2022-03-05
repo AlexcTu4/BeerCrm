@@ -20,6 +20,6 @@ export default class Index extends Vue{
 <style lang="scss" module>
 @import "assets/style/global";
   .main{
-    background: $main-additional-color;
+    z-index: 1000;
   }
 </style>
