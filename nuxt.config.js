@@ -25,7 +25,7 @@ export default {
   plugins: [
     '@/plugins/CRM.ts',
     '@/plugins/contact.ts',
-    '@/plugins/validation.ts'
+    '@/plugins/myValidation.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -78,5 +78,6 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
 
-  }
+  },
+
 }

@@ -20,118 +20,45 @@
             <b-input-group-text
               :class="$style.modalText"
             >
-              <div>{{ field.label }}</div>
+              <div>
+                {{ field.label }}
+                <span
+                  v-if="field.required"
+                  :class="$style.requiredField">
+                  *
+                </span>
+              </div>
             </b-input-group-text>
           </template>
 
           <BasePhoneInput
-            v-if="field.key === 'phone'"
+            v-if="field.type === 'phone'"
+            v-validation="{type: 'phone', required: true}"
             :class="$style.phoneInput"
             :value="modalData.data[field.key]"
             @update="updatePhone"
           />
+
+          <b-form-textarea
+            id="textarea"
+            v-else-if="field.type === 'textArea'"
+            :value="modalData.data[field.key]"
+            placeholder="Описание..."
+            rows="1"
+            max-rows="4"
+            @change="change($event,field.key)"
+          ></b-form-textarea>
+
           <b-form-input
             v-else
+            :readonly="!field.editable"
             :value="modalData.data[field.key]"
+            v-validation="{type: field.key, required: field.required}"
             @change="change($event,field.key)"
             :placeholder="field.label"
+
           />
         </b-input-group>
-
-
-<!--        <b-input-group-->
-<!--          class="mb-3"-->
-<!--        >-->
-<!--          <template-->
-<!--            #prepend>-->
-<!--            <b-input-group-text-->
-<!--              :class="$style.modalText"-->
-<!--            >-->
-<!--              <div>ФИО</div>-->
-<!--            </b-input-group-text>-->
-<!--          </template>-->
-<!--          <b-form-input-->
-<!--            v-model="modalData.data?.last_name"-->
-<!--            placeholder="Фамилия"-->
-<!--            :state="!!modalData.data?.last_name"-->
-<!--          />-->
-<!--          <b-form-input-->
-<!--            v-model="modalData.data?.first_name"-->
-<!--            placeholder="Имя"-->
-
-<!--          />-->
-<!--          <b-form-input-->
-<!--            v-model="modalData.data.patronymic"-->
-<!--            placeholder="Отчество"-->
-<!--            :state="true"-->
-<!--          />-->
-<!--        </b-input-group>-->
-<!--        <b-input-group-->
-<!--          class="mb-3"-->
-<!--        >-->
-<!--          <template #prepend>-->
-<!--            <b-input-group-text-->
-<!--              :class="$style.modalText"-->
-<!--            >-->
-<!--              Компания-->
-<!--            </b-input-group-text>-->
-<!--          </template>-->
-<!--          <b-form-input-->
-<!--            v-model="modalData.company"-->
-<!--            placeholder="Компания"-->
-<!--            :state="!!modalData.company"-->
-<!--          />-->
-<!--        </b-input-group>-->
-<!--        <b-input-group-->
-<!--          class="mb-3"-->
-<!--        >-->
-<!--          <template #prepend>-->
-<!--            <b-input-group-text-->
-<!--              :class="$style.modalText"-->
-<!--            >-->
-<!--              Должность-->
-<!--            </b-input-group-text>-->
-<!--          </template>-->
-<!--          <b-form-input-->
-<!--            v-model="modalData.post"-->
-<!--            placeholder="Должность"-->
-<!--            :state="!!modalData.post"-->
-<!--          />-->
-<!--        </b-input-group>-->
-<!--        <b-input-group-->
-<!--          class="mb-3"-->
-<!--        >-->
-<!--          <template #prepend>-->
-<!--            <b-input-group-text-->
-<!--              :class="$style.modalText"-->
-<!--            >-->
-<!--              Телефон-->
-<!--            </b-input-group-text>-->
-<!--          </template>-->
-<!--          <BasePhoneInput-->
-<!--            :class="$style.phoneInput"-->
-<!--            :value="modalData.phone"-->
-<!--            @update="updatePhone"-->
-<!--          />-->
-<!--        </b-input-group>-->
-<!--        <b-input-group-->
-<!--          class="mb-3"-->
-<!--        >-->
-<!--          <template #prepend>-->
-<!--            <b-input-group-text-->
-<!--              :class="$style.modalText"-->
-<!--            >-->
-<!--              Комментарий-->
-<!--            </b-input-group-text>-->
-<!--          </template>-->
-<!--          <b-form-textarea-->
-<!--            v-model="modalData.description"-->
-<!--            placeholder="Введите описание контакта..."-->
-<!--            size="sm"-->
-<!--            rows="1"-->
-<!--            max-rows="3"-->
-<!--          />-->
-<!--        </b-input-group>-->
       </b-container>
       <template #modal-footer>
         <div class="w-100">
@@ -182,35 +109,25 @@ import contacts from "~/store/contacts";
     ])
   }
 })
-export default class SmartTable extends mixins(BaseEditModalProps, validationMixin){
+export default class SmartTable extends mixins(BaseEditModalProps){
   private modalData!: IBaseModalData;
   updatePhone(phone: any){
-    this.$store.commit('main/SET_MODAL_PHONE', phone.formattedNumber);
+    this.$emit('updatePhone', phone.formattedNumber);
   }
   saveContact(): void {
-    this.$store.dispatch('contacts/UPDATE_CONTACT', this.modalData.data);
+    this.$emit('save', this.modalData.data);
   }
   closeModal(): void{
     this.$store.commit('main/TOGGLE_EDIT_MODAL');
     this.$store.commit('main/CLEAR_EDIT_MODAL');
   }
-  get validations(): any {
-    return {
-      modalData:{
-        first_name: {
-          required,
-        },
-      }
 
-    }
-  }
   change(value : any, field: any): void {
     this.$store.commit('main/SET_MODAL_DATA', {field: field, value: value})
   }
   mounted(): void{
     getModule(main, this.$store);
     getModule(contacts, this.$store);
-    console.log(this.modalData);
   }
 
 }
@@ -225,5 +142,8 @@ export default class SmartTable extends mixins(BaseEditModalProps, validationMix
 }
 .phoneInput{
   width: calc(100% - 109px);
+}
+.requiredField{
+  color: #ef3737;
 }
 </style>

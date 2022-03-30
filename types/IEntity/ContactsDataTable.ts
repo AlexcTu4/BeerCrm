@@ -15,6 +15,5 @@ export interface IContactsColumnNamesTable {
 }
 export interface IContacts {
   data: IContactsDataTable[] | null,
-  info: IColumnTable[] | null
 }
 

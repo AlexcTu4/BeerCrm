@@ -12,11 +12,11 @@ import {IContacts, IContactsDataTable} from "~/types/IEntity/ContactsDataTable";
 
 export default class ContactsModule extends VuexModule {
 
-  contacts: IContacts = {data: null, info:null};
+  contacts: IContacts = {data: null};
 
   @Mutation
   setContacts(contacts: any): void {
-    this.contacts = contacts;
+    this.contacts.data = contacts;
   }
 
   @Action({ rawError: true })
@@ -26,21 +26,31 @@ export default class ContactsModule extends VuexModule {
     const response = await this.store.$CONTACTS({
       method: 'GET'
     });
+    console.log(response)
     if(response.data){
       console.log(response.data)
       this.setContacts(response.data);
+      return Promise.resolve(response);
+    }
+    else{
+      Promise.reject(response);
     }
   }
   @Action({rawError: true})
   async UPDATE_CONTACT(payload: IContactsDataTable): Promise<any> {
-    console.log(payload)
-    //@ts-ignore
-    const response = await this.store.$CONTACTS({
-      url: '/'+payload.id,
-      method: 'PUT',
-      data: payload
-    });
-    console.log(response);
+    try {
+      //@ts-ignore
+      const response = await this.store.$CONTACTS({
+        url: '/'+payload.id,
+        method: 'PUT',
+        data: payload
+      });
+      return Promise.resolve(response);
+    }
+    catch (error: any){
+      return Promise.reject(error);
+    }
+
   }
 
 

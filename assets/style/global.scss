@@ -22,3 +22,8 @@ a:hover{
 .vue-phone-number-input {
   width: 100%;
 }
+.error, .error:focus{
+  border-color: #ef3737;
+  box-shadow: 1px 1px 5px #ef3737;
+}
+

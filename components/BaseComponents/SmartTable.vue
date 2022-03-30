@@ -73,44 +73,17 @@ import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
   components:{
     BasePhoneInput
   },
-  validations: {
-    modalData:{
-      first_name: {
-        required,
-        minLength: minLength(4)
-      },
-      last_name: {
-        required,
-      },
-      post: {
-        required,
-      },
-      company: {
-        required,
-      },
-      phone: {
-        required,
-      },
-    }
-  }
+
 
 })
 export default class SmartTable extends mixins(SmartTableProps, validationMixin){
   private columns!: IColumnTable;
-  private modalData: IBaseModalData = {
-    title: 'Редактирование контакта',
-    show: false,
-    data: null,
-    fields: null
-  };
+
   onSave(data: any): void{
     this.$emit('save', data)
   }
   onEdit(data: any): void {
-    console.log(data);
-    this.modalData.show = true;
-    this.modalData = {...this.modalData, data: {...data.item}, fields: this.columns};
-    this.$store.commit('main/SET_EDIT_MODAL', {...this.modalData})
+    this.$emit('editRow', data);
   }
   onDelete(data: any): void {
     this.$emit('delete', data)

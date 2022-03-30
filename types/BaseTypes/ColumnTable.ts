@@ -17,5 +17,6 @@ export interface IColumnTable {
   thAttr?: void | object,
   isRowHeader?: boolean,
   stickyColumn?: boolean,
-  editable?: boolean
+  editable?: boolean,
+  required?: boolean
 }
