@@ -3,6 +3,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import {IBaseModalData} from "~/types/BaseTypes/BaseModalData";
 import {BaseErrors} from "~/types/BaseTypes/mainErrors";
 import {errorsInfo} from "~/constants/errorsInfo"
+import Vue from 'vue'
 @Module({
   name: 'main',
   stateFactory: true,
@@ -57,8 +58,9 @@ export default class MainModule extends VuexModule {
 
   @Mutation
   SET_MODAL_ERROR(payload: {key: string, value: boolean}): void {
-    this.errors.modal[payload.key].error = payload.value;
-    console.log(this.errors.modal)
+    // Для глубокого отслеживания необходимо использовать vue.set
+    // p.s Не уверен, что так правильно делать.
+    Vue.set(this.errors.modal[payload.key],'error',payload.value);
   }
 
   @Mutation
@@ -70,15 +72,14 @@ export default class MainModule extends VuexModule {
   SET_MODAL_PHONE(value: string): void {
     console.log(value);
     if(this.modalData.data){
-      this.modalData.data.phone = value;
+      Vue.set(this.modalData.data,'phone',value);
     }
     console.log(this.modalData)
   }
   @Mutation
   SET_MODAL_DATA(payload: {value : any, field: string}): void {
     if(this.modalData.data){
-      //@ts-ignore
-      this.modalData.data[payload.field] = payload.value;
+      Vue.set(this.modalData.data,payload.field,payload.value);
     }
 
     console.log(this.modalData.data)
@@ -111,13 +112,11 @@ export default class MainModule extends VuexModule {
   get modalErrorText(): string {
     let errorText = 'Введите корректно следующие поля формы: ';
     let arrayErrorsText = [];
-    console.log(this.errors.modal);
     for(let error in this.errors.modal){
       if(this.errors.modal[error].error){
         arrayErrorsText.push(this.errors.modal[error].text)
       }
     }
-    console.log(errorText + arrayErrorsText.join(', '))
-    return errorText + arrayErrorsText.join(', ');
+    return arrayErrorsText.length !==0 ? errorText + arrayErrorsText.join(', ') : '';
   }
 }

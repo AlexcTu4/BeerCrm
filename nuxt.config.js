@@ -25,7 +25,8 @@ export default {
   plugins: [
     '@/plugins/CRM.ts',
     '@/plugins/contact.ts',
-    '@/plugins/myValidation.ts'
+    '@/plugins/myValidation.ts',
+    '@/plugins/spinner.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

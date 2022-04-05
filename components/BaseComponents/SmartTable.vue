@@ -1,38 +1,90 @@
 <template>
-  <div :class="$style.smartTable">
-    <b-table
-      outlined
-      hover
-      :class="$style.table"
-      :items="data"
-      :fields="columns"
+  <div :class="$style.smartTableCmp">
+    <div :class="$style.headerTable"
     >
-      <template #cell(btn)="data">
+      <div
+        :class="$style.searchInputWrap"
+      >
+        <b-form-input
+          :class="$style.searchInput"
+          v-model="searchString"
+          placeholder="Поиск..."
+          @input="onSearchInput"
+        />
         <div
-          :class="$style.btnWrapper"
+          :class="$style.iconWrap"
         >
-<!--          <fa-->
-<!--            v-if="btnSave"-->
-<!--            icon="check"-->
-<!--            :class="[$style.icon, $style.save]"-->
-<!--            @click="onSave(data)"-->
-<!--          />-->
           <fa
-            v-if="btnEdit"
-            icon="pen"
-            :class="[$style.icon, $style.edit]"
-            @click="onEdit(data)"
-          />
-          <fa
-            v-if="btnDelete"
-            icon="times"
-            :class="[$style.icon, $style.delete]"
-            @click="onDelete(data)"
+            :class="$style.icon"
+            icon="search"
+            @click="onSearch"
           />
         </div>
 
-      </template>
-    </b-table>
+      </div>
+      <div
+        :class="$style.btnTable"
+      >
+        <b-button
+          variant="success"
+          size="sm"
+          @click="onAdd"
+        >
+          <fa
+            icon="plus"
+          />
+        </b-button>
+      </div>
+    </div>
+
+    <div :class="$style.smartTable">
+      <b-table
+        outlined
+        hover
+        show-empty
+        :class="$style.table"
+        :items="data.data"
+        :fields="columns"
+      >
+        <template #cell(btn)="data">
+          <div
+            :class="$style.btnWrapper"
+          >
+            <!--          <fa-->
+            <!--            v-if="btnSave"-->
+            <!--            icon="check"-->
+            <!--            :class="[$style.icon, $style.save]"-->
+            <!--            @click="onSave(data)"-->
+            <!--          />-->
+            <fa
+              v-if="btnEdit"
+              icon="pen"
+              :class="[$style.icon, $style.edit]"
+              @click="onEdit(data)"
+            />
+            <fa
+              v-if="btnDelete"
+              icon="times"
+              :class="[$style.icon, $style.delete]"
+              @click="onDelete(data)"
+            />
+          </div>
+
+        </template>
+      </b-table>
+    </div>
+
+    <div :class="$style.footerTable"
+    >
+      <b-pagination
+        align="center"
+        :value="data.current_page"
+        :total-rows="data.total"
+        :per-page="data.per_page"
+        @input="onPageInput"
+      ></b-pagination>
+    </div>
+
   </div>
 </template>
 
@@ -40,7 +92,7 @@
 import Vue from 'vue'
 import Component, {mixins} from 'nuxt-class-component'
 import {IBaseModalData} from "~/types/BaseTypes/BaseModalData";
-import {IContactsDataTable} from "~/types/IEntity/ContactsDataTable"
+import {IContacts, IContactsDataTable} from "~/types/IEntity/ContactsDataTable"
 import BasePhoneInput from "~/components/BaseComponents/BasePhoneInput.vue"
 const SmartTableProps = Vue.extend({
   props: {
@@ -49,8 +101,8 @@ const SmartTableProps = Vue.extend({
       required: true
     },
     data: {
-      type: Array,
-      required: false
+      type: Object,
+      required: true
     },
     btnDelete: {
       type: Boolean
@@ -77,8 +129,7 @@ import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
 
 })
 export default class SmartTable extends mixins(SmartTableProps, validationMixin){
-  private columns!: IColumnTable;
-
+  private searchString : string = '';
   onSave(data: any): void{
     this.$emit('save', data)
   }
@@ -88,65 +139,90 @@ export default class SmartTable extends mixins(SmartTableProps, validationMixin)
   onDelete(data: any): void {
     this.$emit('delete', data)
   }
-  // updatePhone(phone: any){
-  //   this.modalData.data.phone = phone.formattedNumber
-  //   console.log(this.modalData)
-  // }
-  saveContact(): void {
-    this.$v.$touch();
-    console.log(this.$v)
+  onAdd(): void {
+    this.$emit('add')
   }
-  get validations(): any {
-    return {
-      modalData:{
-        first_name: {
-          required,
-        },
-      }
-
+  onSearchInput( value : string) : void {
+    if (!value) {
+      this.$emit('search', false);
     }
   }
+  onSearch() : void {
+      this.$emit('search', this.searchString);
+  }
+
+  onPageInput(value: string) : void {
+    this.$emit('pagination', value);
+  }
+
   mounted() : void {
-    //@ts-ignore
-    console.log(this.$v);
+
   }
 }
 </script>
 <style lang="scss" module>
-.smartTable{
-  .btnWrapper{
+.smartTableCmp{
+  .headerTable{
     display: flex;
-    height: 100%;
-    justify-content: space-around;
-    .icon{
-      cursor: pointer;
-      &.save{
-        color: #86ce00;
+    justify-content: space-between;
+    .searchInputWrap{
+      position: relative;
+      max-width: 300px;
+      margin-bottom: 20px;
+      .searchInput{
+
       }
-      &.edit{
-        color: #5581E0;
+      .iconWrap{
+        margin: auto;
+        position: absolute;
+        height: 50%;
+        top: 0;  bottom: 0; right: 10px;
+        cursor: pointer;
       }
-      &.delete{
-        color: #ef3737;
-      }
+
+    }
+    .btnTable{
+
     }
   }
 
+
+  .smartTable{
+    .btnWrapper{
+      display: flex;
+      height: 100%;
+      justify-content: space-around;
+      .icon{
+        cursor: pointer;
+        &.save{
+          color: #86ce00;
+        }
+        &.edit{
+          color: #5581E0;
+        }
+        &.delete{
+          color: #ef3737;
+        }
+      }
+    }
+
+  }
 }
-.modalText{
-  width: 110px;
-  justify-content: center;
-}
-.phoneInput{
-  width: calc(100% - 109px);
-}
+
+//.modalText{
+//  width: 110px;
+//  justify-content: center;
+//}
+//.phoneInput{
+//  width: calc(100% - 109px);
+//}
 </style>
 <style>
-  .modal-600px{
-    max-width: 600px;
-  }
-  .country-selector input{
-    border-top-left-radius: 0!important;
-    border-bottom-left-radius: 0!important;
-}
+/*  .modal-600px{*/
+/*    max-width: 600px;*/
+/*  }*/
+/*  .country-selector input{*/
+/*    border-top-left-radius: 0!important;*/
+/*    border-bottom-left-radius: 0!important;*/
+/*}*/
 </style>

@@ -45,7 +45,6 @@ export default class SideMenu extends Vue{
 <style lang="scss" module>
 
   .side{
-    height: 100%;
     width: 260px;
     background: $main-color;
     box-shadow: 1px 0 5px #505050;

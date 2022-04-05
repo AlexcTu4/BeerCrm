@@ -85,23 +85,17 @@
 </template>
 
 <script lang="ts">
-import Vue, { PropType } from 'vue'
+import Vue from 'vue'
 import Component, {mixins} from 'nuxt-class-component'
 import {IBaseModalData} from "~/types/BaseTypes/BaseModalData";
-import {IContactsDataTable} from "~/types/IEntity/ContactsDataTable"
-import BasePhoneInput from "~/components/BaseComponents/BasePhoneInput.vue"
-const BaseEditModalProps = Vue.extend({
-
-})
-import { required, minLength, between } from 'vuelidate/lib/validators'
-//@ts-ignore
-import { validationMixin } from 'vuelidate'
 import {mapState} from "vuex";
 import {getModule} from "vuex-module-decorators";
 import main from "~/store/main";
 import contacts from "~/store/contacts";
 
-//@ts-ignore
+const BaseEditModalProps = Vue.extend({
+
+})
 @Component({
   computed: {
     ...mapState('main', [
@@ -112,6 +106,7 @@ import contacts from "~/store/contacts";
 export default class SmartTable extends mixins(BaseEditModalProps){
   private modalData!: IBaseModalData;
   updatePhone(phone: any){
+    console.log(phone);
     this.$emit('updatePhone', phone.formattedNumber);
   }
   saveContact(): void {

@@ -35,7 +35,7 @@ export default class Main extends Vue{
 
 <style lang="scss" module>
   .page{
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     display: flex;
     .side{
@@ -44,7 +44,6 @@ export default class Main extends Vue{
     }
     .main{
       width: 100%;
-      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;

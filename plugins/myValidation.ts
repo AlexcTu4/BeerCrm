@@ -8,8 +8,6 @@ const checkEmail = (email: string) : boolean => {
 
 Vue.directive('validation', {
   bind(el: HTMLElement, binding: DirectiveBinding, vnode: any ): void{
-    console.log(vnode);
-    const store = vnode.context.$store;
     el.addEventListener('input', (event: Event) =>{
       const target = event.target as HTMLInputElement;
       let error = false;
@@ -27,11 +25,11 @@ Vue.directive('validation', {
       }
       if(error){
         target.classList.add('error');
-        store.commit('main/SET_MODAL_ERROR', {key:binding.value.type, value:true});
+        vnode.context.$store.commit('main/SET_MODAL_ERROR', {key:binding.value.type, value:true});
       }
       else{
         target.classList.remove('error');
-        store.commit('main/SET_MODAL_ERROR', {key:binding.value.type, value:false});
+        vnode.context.$store.commit('main/SET_MODAL_ERROR', {key:binding.value.type, value:false});
       }
 
     })
