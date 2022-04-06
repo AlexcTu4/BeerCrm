@@ -2,12 +2,14 @@
   <div :class="$style.page">
     <b-sidebar
       id="sidebar"
-      :visible="mediaQuery === 'lg'"
+      :visible="sideBarActive"
+      :no-close-on-route-change="sideBarActive"
       no-header
       shadow
       :no-slide="mediaQuery === 'lg'"
       :backdrop="mediaQuery !== 'lg'"
       @change="onChangeSideBar"
+      :class="$style.sideBar"
     >
       <sideMenu
         :class="$style.side"
@@ -51,14 +53,16 @@ const MainProps = Vue.extend({
   computed: {
     ...mapState('main', [
       'mediaQuery',
+      'sideBarActive'
     ]),
   }
 })
 export default class Main extends mixins(mixin,MainProps){
   onChangeSideBar() : void {
     console.log('asd')
-    this.$store.commit('main/TOGGLE_SIDE_BAR');
+    // this.$store.commit('main/TOGGLE_SIDE_BAR');
   }
+
 }
 </script>
 
@@ -67,6 +71,7 @@ export default class Main extends mixins(mixin,MainProps){
     min-height: 100vh;
     width: 100%;
     display: flex;
+
     .side{
       box-shadow: 1px 0 10px #505050;
       z-index: 1000;
@@ -99,3 +104,4 @@ export default class Main extends mixins(mixin,MainProps){
   }
 
 </style>
+

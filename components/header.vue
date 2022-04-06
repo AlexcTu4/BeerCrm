@@ -7,7 +7,7 @@
     </div>
     <div
       :class="$style.toggleMenu"
-      v-if="mediaQuery !== 'lg'"
+      v-if="mediaQuery !== 'lg' && mediaQuery !== ''"
       v-b-toggle.sidebar
     >
         <div

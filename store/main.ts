@@ -14,7 +14,7 @@ import Vue from 'vue'
 
 export default class MainModule extends VuexModule {
   private mediaQuery : string = '';
-  private sideBarActive : boolean = false;
+  private sideBarActive : boolean = true;
   links: ILink[] = [
     {
       name: 'index',
@@ -63,12 +63,16 @@ export default class MainModule extends VuexModule {
   }
   @Mutation
   SET_MEDIA( width: number): void {
+    console.log('setmedia')
     if (width <= 767) {
       this.mediaQuery = 'xs';
+      this.sideBarActive = false;
     } else if (width >= 768 && width <= 1400 ) {
       this.mediaQuery = 'md';
+      this.sideBarActive = false;
     } else if (width > 1401) {
       this.mediaQuery = 'lg';
+      this.sideBarActive = true;
     }
   }
 
