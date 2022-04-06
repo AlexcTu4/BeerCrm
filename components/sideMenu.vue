@@ -1,31 +1,31 @@
 <template>
-  <div :class="$style.side">
-    <div
-      :class="$style.logo"
-    >
-      <NuxtLink to="/">
-        <img src="~assets/img/logo-test.png" alt="">
-      </NuxtLink>
-    </div>
-    <div
-      :class="$style.links"
-    >
+    <div :class="$style.side">
       <div
-        v-for="link in links"
-        :key="link.name"
-
+        :class="$style.logo"
       >
-        <NuxtLink
-          :class="$style.link"
-          :to="{name:link.name}">
-          <fa
-            :class="$style.icon"
-            :icon="link.icon"></fa>
-          {{ link.title }}
+        <NuxtLink to="/">
+          <img src="~assets/img/logo-test.png" alt="">
         </NuxtLink>
       </div>
+      <div
+        :class="$style.links"
+      >
+        <div
+          v-for="link in links"
+          :key="link.name"
+
+        >
+          <NuxtLink
+            :class="$style.link"
+            :to="{name:link.name}">
+            <fa
+              :class="$style.icon"
+              :icon="link.icon"></fa>
+            {{ link.title }}
+          </NuxtLink>
+        </div>
+      </div>
     </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -45,7 +45,7 @@ export default class SideMenu extends Vue{
 <style lang="scss" module>
 
   .side{
-    width: 260px;
+    min-width: 260px;
     background: $main-color;
     box-shadow: 1px 0 5px #505050;
     .logo{

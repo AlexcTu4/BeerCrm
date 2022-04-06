@@ -4,7 +4,8 @@ import $axios from "@nuxtjs/axios"
 declare module 'vue/types/vue' {
   interface Vue {
     $CRM: $axios,
-    $CONTACTS: $axios
+    $CONTACTS: $axios,
+    $bvToast: any,
   }
 }
 declare module "*.vue" {

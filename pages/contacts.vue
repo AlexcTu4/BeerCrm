@@ -8,28 +8,40 @@
 <!--    />-->
     <div
       :class="$style.tableWrap"
-
     >
       <BaseSpinner
         :active="load"
       />
-      <SmartTable
-        :columns="columns"
-        :data="contacts"
-        :btnDelete="true"
-        :btnSave="true"
-        :btnEdit="true"
-        @delete="deleteContact"
-        @editRow="editRow"
-        @add="addContact"
-        @search="onSearchContact"
-        @pagination="onPagination"
-      />
+      <div
+        v-if="mediaQuery === 'lg'"
+      >
+        <SmartTable
+          :columns="columns"
+          :data="contacts"
+          :btnDelete="true"
+          :btnSave="true"
+          :btnEdit="true"
+          @delete="deleteContact"
+          @editRow="editRow"
+          @add="addContact"
+          @search="onSearchContact"
+          @pagination="onPagination"
+        />
+      </div>
+      <div
+        v-else
+      >
+        <BaseCards
+          :data="contacts"
+        />
+      </div>
       <BaseEditModal
         @save="saveContact"
         @updatePhone="updatePhone"
       />
+
     </div>
+
 
   </div>
 </template>
@@ -44,14 +56,14 @@ import SmartTable from '~/components/BaseComponents/SmartTable.vue';
 import BaseEditModal from '~/components/BaseComponents/BaseEditModal.vue';
 import {IContacts} from "~/types/IEntity/ContactsDataTable";
 import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
-import {IContactsColumnNamesTable} from "~/types/IEntity/ContactsDataTable";
-import {IErrorResponse} from "~/types/BaseTypes/ErrorResponse";
 import {IBaseModalData} from "~/types/BaseTypes/BaseModalData";
 import {BaseErrors} from "~/types/BaseTypes/mainErrors";
+import BaseCards from "~/components/BaseComponents/BaseCards.vue";
 
 @Component({
   layout: 'main',
   components:{
+    BaseCards,
     SmartTable,
     BaseEditModal
   },
@@ -61,6 +73,7 @@ import {BaseErrors} from "~/types/BaseTypes/mainErrors";
     ]),
     ...mapState('main', [
       'errors',
+      'mediaQuery'
     ]),
     ...mapGetters('main', [
       'modalErrorText'
@@ -71,6 +84,7 @@ import {BaseErrors} from "~/types/BaseTypes/mainErrors";
 export default class Contacts extends Vue{
   private contacts!: IContacts;
   private errors!: BaseErrors;
+  private mediaQuery!: string;
   private modalErrorText!: string;
   private load : boolean = true;
   private searchStringLenght = 3;
@@ -286,14 +300,22 @@ export default class Contacts extends Vue{
   async mounted(): Promise<any>{
     getModule(contacts, this.$store);
     this.load = true;
-    await this.$store.dispatch('contacts/GET_CONTACTS', {page : this.contacts.current_page});
+    try{
+      await this.$store.dispatch('contacts/GET_CONTACTS', {page : this.contacts.current_page});
+    }
+    catch (error: any) {
+      this.$bvToast.toast(error.message, {
+        title: 'Ошибка!',
+        autoHideDelay: 3000,
+        variant: 'danger'
+      })
+    }
     this.load = false;
   }
   async saveContact(data: any): Promise<any> {
     console.log(data);
 
     if(this.modalErrorText){
-      // @ts-ignore
       this.$bvToast.toast(this.modalErrorText, {
         title: 'Введите корректные данные',
         autoHideDelay: 3000,
@@ -313,7 +335,6 @@ export default class Contacts extends Vue{
       }
       catch (error: any){
         console.log(error.response.data.errors);
-        // @ts-ignore
         this.$bvToast.toast(error.message, {
           title: 'Ошибка!',
           autoHideDelay: 3000,
@@ -334,7 +355,6 @@ export default class Contacts extends Vue{
     }
     catch (error: any){
       console.log(error.response.data.errors);
-      // @ts-ignore
       this.$bvToast.toast(error.message, {
         title: 'Ошибка!',
         autoHideDelay: 3000,
@@ -362,7 +382,6 @@ export default class Contacts extends Vue{
     }
     catch (error: any){
       console.log(error.response.data.errors);
-      // @ts-ignore
       this.$bvToast.toast(error.message, {
         title: 'Ошибка!',
         autoHideDelay: 3000,
@@ -393,7 +412,6 @@ export default class Contacts extends Vue{
       }
     }
     catch (error: any){
-      // @ts-ignore
       this.$bvToast.toast(error.message, {
         title: 'Ошибка!',
         autoHideDelay: 3000,
@@ -429,6 +447,12 @@ export default class Contacts extends Vue{
     .table{
 
     }
+  }
+
+  .cardsWrap{
+    background: #fff;
+    margin-top: -7vw;
+    border-radius: 10px;
   }
 
 }

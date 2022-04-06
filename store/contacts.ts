@@ -30,7 +30,6 @@ export default class ContactsModule extends VuexModule {
 
   @Action({ rawError: true })
   async GET_CONTACTS(data : string | null): Promise<any> {
-    console.log(this);
     //@ts-ignore
     const response = await this.store.$CONTACTS({
       method: 'GET',

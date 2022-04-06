@@ -1,41 +1,9 @@
 <template>
   <div :class="$style.smartTableCmp">
-    <div :class="$style.headerTable"
-    >
-      <div
-        :class="$style.searchInputWrap"
-      >
-        <b-form-input
-          :class="$style.searchInput"
-          v-model="searchString"
-          placeholder="Поиск..."
-          @input="onSearchInput"
-        />
-        <div
-          :class="$style.iconWrap"
-        >
-          <fa
-            :class="$style.icon"
-            icon="search"
-            @click="onSearch"
-          />
-        </div>
-
-      </div>
-      <div
-        :class="$style.btnTable"
-      >
-        <b-button
-          variant="success"
-          size="sm"
-          @click="onAdd"
-        >
-          <fa
-            icon="plus"
-          />
-        </b-button>
-      </div>
-    </div>
+    <BaseTableHeader
+      @add="onAdd"
+      @search="onSearch"
+    />
 
     <div :class="$style.smartTable">
       <b-table
@@ -74,26 +42,20 @@
       </b-table>
     </div>
 
-    <div :class="$style.footerTable"
-    >
-      <b-pagination
-        align="center"
-        :value="data.current_page"
-        :total-rows="data.total"
-        :per-page="data.per_page"
-        @input="onPageInput"
-      ></b-pagination>
-    </div>
 
+    <BaseTableFooter
+      :data="data"
+      @pagination="onPageInput"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import Component, {mixins} from 'nuxt-class-component'
-import {IBaseModalData} from "~/types/BaseTypes/BaseModalData";
-import {IContacts, IContactsDataTable} from "~/types/IEntity/ContactsDataTable"
-import BasePhoneInput from "~/components/BaseComponents/BasePhoneInput.vue"
+import BaseTableHeader from "~/components/BaseComponents/BaseTableHeader.vue";
+import BaseTableFooter from "~/components/BaseComponents/BaseTableFooter.vue";
+import TableMixin from "~/mixins/TableMixin";
 const SmartTableProps = Vue.extend({
   props: {
     columns: {
@@ -115,21 +77,17 @@ const SmartTableProps = Vue.extend({
     },
   }
 })
-import { required, minLength, between } from 'vuelidate/lib/validators'
-//@ts-ignore
-import { validationMixin } from 'vuelidate'
-import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
 
-//@ts-ignore
 @Component({
   components:{
-    BasePhoneInput
+    BaseTableFooter,
+    BaseTableHeader,
   },
 
 
 })
-export default class SmartTable extends mixins(SmartTableProps, validationMixin){
-  private searchString : string = '';
+export default class SmartTable extends mixins(SmartTableProps, TableMixin){
+
   onSave(data: any): void{
     this.$emit('save', data)
   }
@@ -139,21 +97,8 @@ export default class SmartTable extends mixins(SmartTableProps, validationMixin)
   onDelete(data: any): void {
     this.$emit('delete', data)
   }
-  onAdd(): void {
-    this.$emit('add')
-  }
-  onSearchInput( value : string) : void {
-    if (!value) {
-      this.$emit('search', false);
-    }
-  }
-  onSearch() : void {
-      this.$emit('search', this.searchString);
-  }
 
-  onPageInput(value: string) : void {
-    this.$emit('pagination', value);
-  }
+
 
   mounted() : void {
 
@@ -162,31 +107,6 @@ export default class SmartTable extends mixins(SmartTableProps, validationMixin)
 </script>
 <style lang="scss" module>
 .smartTableCmp{
-  .headerTable{
-    display: flex;
-    justify-content: space-between;
-    .searchInputWrap{
-      position: relative;
-      max-width: 300px;
-      margin-bottom: 20px;
-      .searchInput{
-
-      }
-      .iconWrap{
-        margin: auto;
-        position: absolute;
-        height: 50%;
-        top: 0;  bottom: 0; right: 10px;
-        cursor: pointer;
-      }
-
-    }
-    .btnTable{
-
-    }
-  }
-
-
   .smartTable{
     .btnWrapper{
       display: flex;

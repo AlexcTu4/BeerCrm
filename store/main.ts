@@ -13,6 +13,8 @@ import Vue from 'vue'
 
 
 export default class MainModule extends VuexModule {
+  private mediaQuery : string = '';
+  private sideBarActive : boolean = false;
   links: ILink[] = [
     {
       name: 'index',
@@ -55,6 +57,20 @@ export default class MainModule extends VuexModule {
     modal: errorsInfo
   }
 
+  @Mutation
+  TOGGLE_SIDE_BAR() : void {
+    this.sideBarActive = !this.sideBarActive;
+  }
+  @Mutation
+  SET_MEDIA( width: number): void {
+    if (width <= 767) {
+      this.mediaQuery = 'xs';
+    } else if (width >= 768 && width <= 1400 ) {
+      this.mediaQuery = 'md';
+    } else if (width > 1401) {
+      this.mediaQuery = 'lg';
+    }
+  }
 
   @Mutation
   SET_MODAL_ERROR(payload: {key: string, value: boolean}): void {
