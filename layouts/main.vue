@@ -1,19 +1,8 @@
 <template>
   <div :class="$style.page">
-    <b-sidebar
-      id="sidebar"
-      :visible="mediaQuery === 'lg'"
-      no-header
-      shadow
-      :no-slide="mediaQuery === 'lg'"
-      :backdrop="mediaQuery !== 'lg'"
-      @change="onChangeSideBar"
-    >
-      <sideMenu
-        :class="$style.side"
-      />
-    </b-sidebar>
-
+    <sideMenu
+      :class="$style.side"
+    />
     <div
       :class="[$style.main, {[$style.activeSideBar] : mediaQuery === 'lg' }]"
     >
@@ -35,7 +24,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component, {mixins} from 'nuxt-class-component'
-import mixin from '~/mixins/BaseMixin'
+import BaseMixin from '~/mixins/BaseMixin'
 import Footer from '~/components/footer.vue'
 import  Header from '~/components/header.vue'
 import {mapState} from "vuex";
@@ -54,11 +43,8 @@ const MainProps = Vue.extend({
     ]),
   }
 })
-export default class Main extends mixins(mixin,MainProps){
-  onChangeSideBar() : void {
-    console.log('asd')
-    this.$store.commit('main/TOGGLE_SIDE_BAR');
-  }
+export default class Main extends mixins(BaseMixin,MainProps){
+
 }
 </script>
 
@@ -68,9 +54,7 @@ export default class Main extends mixins(mixin,MainProps){
     width: 100%;
     display: flex;
     .side{
-      box-shadow: 1px 0 10px #505050;
-      z-index: 1000;
-      height: 100%;
+
     }
     .main{
       width: 100%;
@@ -78,7 +62,7 @@ export default class Main extends mixins(mixin,MainProps){
       flex-direction: column;
       justify-content: space-between;
       &.activeSideBar{
-        margin-left: 320px;
+        //margin-left: 320px;
       }
       .header{
         z-index: 900;

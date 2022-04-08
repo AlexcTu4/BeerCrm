@@ -48,7 +48,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'nuxt-class-component'
+import Component, {mixins} from 'nuxt-class-component'
 import {getModule} from "vuex-module-decorators";
 import contacts from "~/store/contacts";
 import { mapState, mapGetters} from 'vuex';
@@ -59,6 +59,7 @@ import {IColumnTable} from "~/types/BaseTypes/ColumnTable";
 import {IBaseModalData} from "~/types/BaseTypes/BaseModalData";
 import {BaseErrors} from "~/types/BaseTypes/mainErrors";
 import BaseCards from "~/components/BaseComponents/BaseCards.vue";
+import PageMixin from "~/mixins/PageMixin";
 
 @Component({
   layout: 'main',
@@ -81,7 +82,7 @@ import BaseCards from "~/components/BaseComponents/BaseCards.vue";
   }
 })
 
-export default class Contacts extends Vue{
+export default class Contacts extends mixins(PageMixin){
   private contacts!: IContacts;
   private errors!: BaseErrors;
   private mediaQuery!: string;
@@ -235,6 +236,7 @@ export default class Contacts extends Vue{
     ];
 
   }
+
   get addFields(): any {
     return [
       {
@@ -390,6 +392,7 @@ export default class Contacts extends Vue{
     }
 
   }
+
   editRow(data: any): void {
     console.log(data);
     this.modalData.show = true;

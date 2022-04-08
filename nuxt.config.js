@@ -1,3 +1,5 @@
+import {store} from "core-js/internals/reflect-metadata";
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -25,8 +27,8 @@ export default {
   plugins: [
     '@/plugins/CRM.ts',
     '@/plugins/contact.ts',
-    '@/plugins/myValidation.ts',
-    '@/plugins/spinner.ts'
+    '@/plugins/directives/myValidation.ts',
+    '@/plugins/directives/clickOutside.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -64,6 +66,7 @@ export default {
   transpileDependencies: [
     'vuex-module-decorators'
   ],
+
   auth:{
 
   },

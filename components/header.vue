@@ -6,9 +6,9 @@
       {{ title }}
     </div>
     <div
+      id="toggleMenu"
       :class="$style.toggleMenu"
       v-if="mediaQuery !== 'lg'"
-      v-b-toggle.sidebar
     >
         <div
           :class="$style.toggleMenuItem"
@@ -46,9 +46,14 @@ export default class Header extends Vue{
   mounted(): void {
 
   }
+  onChangeSideBar() : void {
+    console.log('asd')
+    this.$store.commit('main/TOGGLE_SIDE_BAR');
+  }
 }
 </script>
 <style lang="scss" module>
+@import "assets/style/media";
 
   .header{
     background: $second-color;
@@ -59,6 +64,16 @@ export default class Header extends Vue{
     .toggleMenu{
       margin: auto 0;
       overflow: hidden;
+      @include lg {
+        display: none;
+      }
+      @include md {
+        display: none;
+      }
+      @include mobile {
+        display: block;
+      }
+
       .toggleMenuItem{
         height: 3px;
         width: 20px;
