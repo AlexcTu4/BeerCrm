@@ -60,9 +60,15 @@ export default class MainModule extends VuexModule {
   @Mutation
   TOGGLE_SIDE_BAR() : void {
     this.sideBarActive = !this.sideBarActive;
+    console.log(this.sideBarActive);
+  }
+  @Mutation
+  SET_SIDE_BAR(value : boolean) : void {
+    this.sideBarActive = value;
   }
   @Mutation
   SET_MEDIA( width: number): void {
+    console.log('media')
     if (width <= 767) {
       this.mediaQuery = 'xs';
     } else if (width >= 768 && width <= 1400 ) {
@@ -118,11 +124,6 @@ export default class MainModule extends VuexModule {
     console.log(this.modalData);
   }
 
-
-  @Action({ rawError: true })
-  getContacts(): void {
-    console.log('111111111');
-  }
 
 
   get modalErrorText(): string {

@@ -28,13 +28,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'nuxt-class-component'
+import Component, {mixins} from 'nuxt-class-component'
+import PageMixin from "~/mixins/PageMixin";
 
 @Component({
   layout: 'main',
 })
 
-export default class Look extends Vue{
+export default class Look extends mixins(PageMixin){
   active: boolean = false;
   block: any = {
     initialY: 0,

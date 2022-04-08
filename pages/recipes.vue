@@ -6,13 +6,14 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import Component from 'nuxt-class-component'
+import Component, {mixins} from 'nuxt-class-component'
+import PageMixin from "~/mixins/PageMixin";
 
 @Component({
   layout: 'main',
 })
 
-export default class Recipes extends Vue{
+export default class Recipes extends mixins(PageMixin){
   mounted():void{
     console.log(this.$route)
   }
