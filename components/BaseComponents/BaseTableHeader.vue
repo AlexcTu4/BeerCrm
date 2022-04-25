@@ -22,12 +22,14 @@
 
     </div>
     <div
-      :class="$style.btnTable"
+      :class="$style.btnTableWrap"
     >
       <b-button
+        :class="$style.btnTable"
         variant="success"
         size="sm"
         @click="onAdd"
+        v-b-modal="idModal"
       >
         <fa
           icon="plus"
@@ -44,7 +46,11 @@ import TableMixin from "~/mixins/TableMixin";
 
 
 const BaseTableHeaderProps = Vue.extend({
-
+  props:{
+    idModal:{
+      type: String
+    }
+  }
 })
 @Component({
 
@@ -67,10 +73,10 @@ export default class BaseTableHeader extends mixins(BaseTableHeaderProps, TableM
 .BaseTableHeader{
   display: flex;
   justify-content: space-between;
+  padding-bottom: 20px;
   .searchInputWrap{
     position: relative;
     max-width: 300px;
-    margin-bottom: 20px;
     .searchInput{
 
     }
@@ -83,9 +89,15 @@ export default class BaseTableHeader extends mixins(BaseTableHeaderProps, TableM
     }
 
   }
-  .btnTable{
+  .btnTableWrap{
+    margin: auto 0;
+    .btnTable{
 
+      width: 36px;
+      height: 36px;
+    }
   }
+
 }
 
 </style>

@@ -3,6 +3,7 @@
     <BaseTableHeader
       @add="onAdd"
       @search="onSearch"
+      :idModal="idModal"
     />
 
     <div :class="$style.smartTable">
@@ -14,6 +15,9 @@
         :items="data.data"
         :fields="columns"
       >
+        <template #cell(phone)="data">
+          <a :href="'tel:'+data.item.phone">{{data.item.phone}}</a>
+        </template>
         <template #cell(btn)="data">
           <div
             :class="$style.btnWrapper"
@@ -28,13 +32,14 @@
               v-if="btnEdit"
               icon="pen"
               :class="[$style.icon, $style.edit]"
-              @click="onEdit(data)"
+              @click="onEdit(data.item)"
+              v-b-modal="idModal"
             />
             <fa
               v-if="btnDelete"
               icon="times"
               :class="[$style.icon, $style.delete]"
-              @click="onDelete(data)"
+              @click="onDelete(data.item)"
             />
           </div>
 
@@ -75,6 +80,10 @@ const SmartTableProps = Vue.extend({
     btnSave: {
       type: Boolean
     },
+    idModal:{
+      type: String
+    }
+
   }
 })
 
@@ -91,12 +100,7 @@ export default class SmartTable extends mixins(SmartTableProps, TableMixin){
   onSave(data: any): void{
     this.$emit('save', data)
   }
-  onEdit(data: any): void {
-    this.$emit('editRow', data);
-  }
-  onDelete(data: any): void {
-    this.$emit('delete', data)
-  }
+
 
 
 

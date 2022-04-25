@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.BaseEditModal">
     <b-modal
-      v-model="modalData.show"
+      :id="id"
       :title="modalData.title"
       size="600px"
       centered
@@ -12,7 +12,7 @@
         <b-input-group
           v-for="field in modalData.fields"
           :key="field.key"
-          class="mb-3"
+          :class="[mediaQuery === 'xs'? 'mb-2' : 'mb-3']"
         >
 
           <template
@@ -51,6 +51,7 @@
 
           <b-form-input
             v-else
+            :name="field.key"
             :readonly="!field.editable"
             :value="modalData.data[field.key]"
             v-validation="{type: field.key, required: field.required}"
@@ -92,29 +93,43 @@ import {mapState} from "vuex";
 import {getModule} from "vuex-module-decorators";
 import main from "~/store/main";
 import contacts from "~/store/contacts";
+import {BaseErrors} from "~/types/BaseTypes/mainErrors";
 
 const BaseEditModalProps = Vue.extend({
 
+  props:{
+    id:{
+      type: String
+    }
+  }
 })
 @Component({
   computed: {
     ...mapState('main', [
       'modalData',
+      'mediaQuery',
+      'errors'
     ])
   }
 })
 export default class SmartTable extends mixins(BaseEditModalProps){
   private modalData!: IBaseModalData;
+  private mediaQuery !: string;
+  private errors !:BaseErrors;
   updatePhone(phone: any){
     console.log(phone);
     this.$emit('updatePhone', phone.formattedNumber);
   }
   saveContact(): void {
+    console.log(this.errors);
     this.$emit('save', this.modalData.data);
   }
   closeModal(): void{
-    this.$store.commit('main/TOGGLE_EDIT_MODAL');
-    this.$store.commit('main/CLEAR_EDIT_MODAL');
+
+    this.$bvModal.hide(this.id);
+    setTimeout(()=>{
+      this.$store.commit('main/CLEAR_EDIT_MODAL');
+    }, 200)
   }
 
   change(value : any, field: any): void {
@@ -128,17 +143,27 @@ export default class SmartTable extends mixins(BaseEditModalProps){
 }
 </script>
 <style lang="scss" module>
+@import "assets/style/media";
+
 .BaseEditModal{
   width: 100%;
 }
 .modalText{
   width: 110px;
   justify-content: center;
+  @include xs {
+    width: 80px;
+    font-size: 12px;
+  }
 }
 .phoneInput{
   width: calc(100% - 109px);
+  @include xs {
+    width: calc(100% - 79px);
+  }
 }
 .requiredField{
   color: #ef3737;
 }
 </style>
+

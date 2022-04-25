@@ -12,7 +12,7 @@ Vue.directive('click-outside', {
     el.clickOutsideEvent = (event : Event) => {
       const toggleMenuEl = document.getElementById('toggleMenu');
       //@ts-ignore
-      if (!vnode.context.$store.state.main.sideBarActive && (toggleMenuEl == event.target || toggleMenuEl.contains(event.target))){
+      if (!vnode.context.$store.state.main.sideBarActive && (toggleMenuEl == event.target || toggleMenuEl?.contains(event.target))){
         binding.value(true);
       }
       //@ts-ignore

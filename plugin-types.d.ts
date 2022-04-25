@@ -6,6 +6,7 @@ declare module 'vue/types/vue' {
     $CRM: $axios,
     $CONTACTS: $axios,
     $bvToast: any,
+    $bvModal: any
   }
 }
 declare module "*.vue" {

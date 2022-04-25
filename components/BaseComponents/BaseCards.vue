@@ -4,6 +4,7 @@
     <BaseTableHeader
       @add="onAdd"
       @search="onSearch"
+      :idModal="idModal"
     />
     <div
       :class="$style.wrapCards"
@@ -12,6 +13,9 @@
         v-for="card in data.data"
         :key="card.id"
         :data="card"
+        @delete="onDelete"
+        @editRow="onEdit"
+        :idModal="idModal"
       />
     </div>
     <BaseTableFooter
@@ -35,6 +39,9 @@ const BaseCardsProps = Vue.extend({
       type: Object,
       required: true
     },
+    idModal: {
+      type: String
+    }
   }
 })
 @Component({
@@ -48,12 +55,17 @@ export default class BaseCards extends mixins(BaseCardsProps, TableMixin){
 }
 </script>
 <style lang="scss" module>
+@import "assets/style/media";
+
 .BaseCards{
   .wrapCards{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 10px;
     margin-bottom: 20px;
+    @include xs {
+      grid-template-columns: 1fr;
+    }
   }
 }
 

@@ -49,3 +49,38 @@ export default class BasePhoneInput extends BasePhoneInputProps{
 }
 
 </style>
+<style lang="scss">
+@import "assets/style/media";
+@include xs {
+  .select-country-container{
+    flex: 0 0 85px!important;
+    min-width: 30px!important;
+    width: 30px!important;
+  }
+  .country-selector__toggle{
+    right: 0!important;
+    top: 8px!important;
+  }
+  .country-selector__country-flag{
+    top: 13px!important;
+    left: 5px!important;
+  }
+  .iti-flag{
+
+  }
+  .country-selector__label{
+    display: none;
+  }
+  .country-selector__input{
+    padding: 0 20px 0 30px !important;
+    text-align: center;
+  }
+  .input-tel__label{
+    display: none;
+  }
+  .input-tel__input{
+    padding-top: 0!important;
+  }
+}
+
+</style>

@@ -26,16 +26,24 @@
           @add="addContact"
           @search="onSearchContact"
           @pagination="onPagination"
+          :idModal="idModal"
         />
       </div>
       <div
         v-else
       >
         <BaseCards
+          @add="addContact"
+          @delete="deleteContact"
+          @editRow="editRow"
+          @search="onSearchContact"
+          @pagination="onPagination"
           :data="contacts"
+          :idModal="idModal"
         />
       </div>
       <BaseEditModal
+        :id="idModal"
         @save="saveContact"
         @updatePhone="updatePhone"
       />
@@ -89,6 +97,7 @@ export default class Contacts extends mixins(PageMixin){
   private modalErrorText!: string;
   private load : boolean = true;
   private searchStringLenght = 3;
+  private idModal: string = 'contacts'
   private modalData: IBaseModalData = {
     title: 'Редактирование контакта',
     show: false,
@@ -326,14 +335,23 @@ export default class Contacts extends mixins(PageMixin){
     }
     else{
       try {
+        let response = [];
         if(data.id){
-          const response = await this.$store.dispatch('contacts/UPDATE_CONTACT', data);
+          response = await this.$store.dispatch('contacts/UPDATE_CONTACT', data);
         }else{
-          const response = await this.$store.dispatch('contacts/ADD_CONTACT', data);
-          console.log(response);
+          response = await this.$store.dispatch('contacts/ADD_CONTACT', data);
         }
         await this.$store.dispatch('contacts/GET_CONTACTS', {page : this.contacts.current_page});
-        this.$store.commit('main/TOGGLE_EDIT_MODAL');
+        // this.$store.commit('main/TOGGLE_EDIT_MODAL');
+        console.log(response);
+        if(response.data.id){
+          this.$bvModal.hide(this.idModal);
+          this.$bvToast.toast(['Контакт', data.last_name, data.first_name, data.patronymic, 'сохранен'].join(' '), {
+            title: 'Контакт сохранен',
+            autoHideDelay: 3000,
+            variant: 'success'
+          })
+        }
       }
       catch (error: any){
         console.log(error.response.data.errors);
@@ -352,11 +370,18 @@ export default class Contacts extends mixins(PageMixin){
     this.load = true;
 
     try{
-      await this.$store.dispatch('contacts/DELETE_CONTACT', data.item.id);
-      await this.$store.dispatch('contacts/GET_CONTACTS', {page : this.contacts.current_page});
+      const response = await this.$store.dispatch('contacts/DELETE_CONTACT', data.id);
+      if(response.data.result){
+        await this.$store.dispatch('contacts/GET_CONTACTS', {page : this.contacts.current_page});
+        this.$bvToast.toast(['Контакт', data.last_name, data.first_name, data.patronymic, 'удален'].join(' '), {
+          title: 'Контакт удален',
+          autoHideDelay: 3000,
+          variant: 'success'
+        })
+      }
+
     }
     catch (error: any){
-      console.log(error.response.data.errors);
       this.$bvToast.toast(error.message, {
         title: 'Ошибка!',
         autoHideDelay: 3000,
@@ -383,7 +408,6 @@ export default class Contacts extends mixins(PageMixin){
       this.$store.commit('main/SET_EDIT_MODAL', {...this.modalData})
     }
     catch (error: any){
-      console.log(error.response.data.errors);
       this.$bvToast.toast(error.message, {
         title: 'Ошибка!',
         autoHideDelay: 3000,
@@ -396,7 +420,7 @@ export default class Contacts extends mixins(PageMixin){
   editRow(data: any): void {
     console.log(data);
     this.modalData.show = true;
-    this.modalData = {...this.modalData, data: {...data.item}, fields: this.editFields};
+    this.modalData = {...this.modalData, data: {...data}, fields: this.editFields};
     this.$store.commit('main/SET_EDIT_MODAL', {...this.modalData})
   }
   updatePhone(phone: string): void {
