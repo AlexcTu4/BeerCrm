@@ -29,17 +29,14 @@ export default class ContactsModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async GET_CONTACTS(data : string | null): Promise<any> {
-    console.log('get_contacts')
+  async GET_CONTACTS(payload : {page: number, per_page?: number} | null): Promise<any> {
     //@ts-ignore
     const response = await this.store.$CONTACTS({
       method: 'GET',
-      params: data
+      params: payload
     });
-    console.log(response)
     if(response.data){
       this.setContacts(response.data);
-      console.log(this.contacts)
       return Promise.resolve(response);
     }
     else{
@@ -48,17 +45,14 @@ export default class ContactsModule extends VuexModule {
   }
   @Action({ rawError: true })
   async SEARCH_CONTACTS(data : string | null): Promise<any> {
-    console.log(this);
     //@ts-ignore
     const response = await this.store.$CONTACTS({
       url: '/'+data,
       method: 'GET',
 
     });
-    console.log(response)
     if(response.data){
       this.setContacts(response.data);
-      console.log(this.contacts)
       return Promise.resolve(response);
     }
     else{

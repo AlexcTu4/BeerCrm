@@ -60,7 +60,6 @@ export default class MainModule extends VuexModule {
   @Mutation
   TOGGLE_SIDE_BAR() : void {
     this.sideBarActive = !this.sideBarActive;
-    console.log(this.sideBarActive);
   }
   @Mutation
   SET_SIDE_BAR(value : boolean) : void {
@@ -68,7 +67,6 @@ export default class MainModule extends VuexModule {
   }
   @Mutation
   SET_MEDIA( width: number): void {
-    console.log('media')
     if (width <= 767) {
       this.mediaQuery = 'xs';
     } else if (width >= 768 && width <= 1400 ) {
@@ -92,11 +90,9 @@ export default class MainModule extends VuexModule {
 
   @Mutation
   SET_MODAL_PHONE(value: string): void {
-    console.log(value);
     if(this.modalData.data){
       Vue.set(this.modalData.data,'phone',value);
     }
-    console.log(this.modalData)
   }
   @Mutation
   SET_MODAL_DATA(payload: {value : any, field: string}): void {
@@ -104,12 +100,10 @@ export default class MainModule extends VuexModule {
       Vue.set(this.modalData.data,payload.field,payload.value);
     }
 
-    console.log(this.modalData.data)
   }
 
   @Mutation
   SET_EDIT_MODAL(payload: IBaseModalData): void {
-    console.log(payload)
     this.modalData = payload;
   }
 
@@ -121,7 +115,6 @@ export default class MainModule extends VuexModule {
       data: null,
       fields: null
     }
-    console.log(this.modalData);
   }
 
 

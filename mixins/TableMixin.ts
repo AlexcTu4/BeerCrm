@@ -11,11 +11,9 @@ export class TableMixin extends Vue {
     this.$emit('search', value);
   }
   onAdd(): void {
-    console.log('add in mixin')
     this.$emit('add')
   }
   onEdit(data: any): void {
-    console.log(data);
     this.$emit('editRow', data);
   }
   onDelete(data: any): void {

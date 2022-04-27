@@ -3,6 +3,8 @@
     <VuePhoneNumberInput
       v-model="phone"
       @update="update"
+      ref="phone"
+      v-validation="{type: 'phone', required: true}"
     />
   </div>
 </template>
@@ -33,8 +35,8 @@ const BasePhoneInputProps = Vue.extend({
 })
 export default class BasePhoneInput extends BasePhoneInputProps{
   private phone = this.value;
+
   update(value: IBasePhoneInput): void{
-    console.log(value)
     if(value.isValid){
       this.$emit('update', value);
     }

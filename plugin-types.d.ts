@@ -5,6 +5,7 @@ declare module 'vue/types/vue' {
   interface Vue {
     $CRM: $axios,
     $CONTACTS: $axios,
+    $Validate: any,
     $bvToast: any,
     $bvModal: any
   }

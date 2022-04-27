@@ -1,5 +1,6 @@
 import {Errors} from "~/types/BaseTypes/mainErrors";
 export const errorsInfo : Errors = {
+  id: {text: 'ID', error:false},
   first_name: {text: 'Имя', error:false},
   last_name: { text: 'Фамилия', error:false},
   patronymic: { text: 'Отчество', error:false},

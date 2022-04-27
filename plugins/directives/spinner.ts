@@ -5,10 +5,8 @@ import {DirectiveBinding} from 'vue/types/options';
 Vue.directive('spinner', {
   bind(el: HTMLElement, binding: DirectiveBinding, vnode: any) : void{
 
-    console.log(el)
     el.classList.add('spinner');
     if(binding.value){
-      console.log(el.parentElement)
       el.parentElement?.classList.add('spinnerWrap');
       el.parentElement?.parentElement?.classList.add('spinnerParent');
       el.classList.add('active');
@@ -20,7 +18,6 @@ Vue.directive('spinner', {
     }
   },
   update(el: HTMLElement, binding: DirectiveBinding, vnode: any) : void {
-    console.log(binding.value)
     if(binding.value){
       el.parentElement?.classList.add('spinnerWrap');
       el.parentElement?.parentElement?.classList.add('spinnerParent');

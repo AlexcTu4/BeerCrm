@@ -33,7 +33,6 @@
 
           <BasePhoneInput
             v-if="field.type === 'phone'"
-            v-validation="{type: 'phone', required: true}"
             :class="$style.phoneInput"
             :value="modalData.data[field.key]"
             @update="updatePhone"
@@ -117,11 +116,10 @@ export default class SmartTable extends mixins(BaseEditModalProps){
   private mediaQuery !: string;
   private errors !:BaseErrors;
   updatePhone(phone: any){
-    console.log(phone);
     this.$emit('updatePhone', phone.formattedNumber);
   }
   saveContact(): void {
-    console.log(this.errors);
+    this.$Validate.touch();
     this.$emit('save', this.modalData.data);
   }
   closeModal(): void{
@@ -135,9 +133,11 @@ export default class SmartTable extends mixins(BaseEditModalProps){
   change(value : any, field: any): void {
     this.$store.commit('main/SET_MODAL_DATA', {field: field, value: value})
   }
+
   mounted(): void{
     getModule(main, this.$store);
     getModule(contacts, this.$store);
+
   }
 
 }

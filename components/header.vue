@@ -47,7 +47,6 @@ export default class Header extends Vue{
 
   }
   onChangeSideBar() : void {
-    console.log('asd')
     this.$store.commit('main/TOGGLE_SIDE_BAR');
   }
 }

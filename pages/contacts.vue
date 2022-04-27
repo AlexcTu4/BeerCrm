@@ -324,7 +324,6 @@ export default class Contacts extends mixins(PageMixin){
     this.load = false;
   }
   async saveContact(data: any): Promise<any> {
-    console.log(data);
 
     if(this.modalErrorText){
       this.$bvToast.toast(this.modalErrorText, {
@@ -343,7 +342,6 @@ export default class Contacts extends mixins(PageMixin){
         }
         await this.$store.dispatch('contacts/GET_CONTACTS', {page : this.contacts.current_page});
         // this.$store.commit('main/TOGGLE_EDIT_MODAL');
-        console.log(response);
         if(response.data.id){
           this.$bvModal.hide(this.idModal);
           this.$bvToast.toast(['Контакт', data.last_name, data.first_name, data.patronymic, 'сохранен'].join(' '), {
@@ -354,7 +352,6 @@ export default class Contacts extends mixins(PageMixin){
         }
       }
       catch (error: any){
-        console.log(error.response.data.errors);
         this.$bvToast.toast(error.message, {
           title: 'Ошибка!',
           autoHideDelay: 3000,
@@ -366,7 +363,6 @@ export default class Contacts extends mixins(PageMixin){
 
   }
   async deleteContact(data: any): Promise<any> {
-    console.log(data);
     this.load = true;
 
     try{
@@ -391,7 +387,6 @@ export default class Contacts extends mixins(PageMixin){
     this.load = false;
   }
   addContact(): void {
-    console.log('asdadsd')
     try{
       this.modalData.show = true;
       this.modalData = {...this.modalData,data: {
@@ -404,7 +399,6 @@ export default class Contacts extends mixins(PageMixin){
           phone: "",
           post: ""},
         fields: this.addFields};
-      console.log(this.modalData)
       this.$store.commit('main/SET_EDIT_MODAL', {...this.modalData})
     }
     catch (error: any){
@@ -418,17 +412,14 @@ export default class Contacts extends mixins(PageMixin){
   }
 
   editRow(data: any): void {
-    console.log(data);
     this.modalData.show = true;
     this.modalData = {...this.modalData, data: {...data}, fields: this.editFields};
     this.$store.commit('main/SET_EDIT_MODAL', {...this.modalData})
   }
   updatePhone(phone: string): void {
-    console.log(phone);
     this.$store.commit('main/SET_MODAL_PHONE', phone);
   }
   async onSearchContact(value: string | boolean) : Promise<any> {
-    console.log(value);
     this.load = true;
     try {
       if(value){

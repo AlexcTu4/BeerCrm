@@ -14,9 +14,7 @@ import PageMixin from "~/mixins/PageMixin";
 })
 
 export default class Purchases extends mixins(PageMixin){
-  mounted():void{
-    console.log(this.$route)
-  }
+
 }
 
 </script>

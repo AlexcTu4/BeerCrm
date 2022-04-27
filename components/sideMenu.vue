@@ -59,7 +59,6 @@ export default class SideMenu extends Vue{
     this.$store.commit('main/SET_SIDE_BAR', value)
   }
   linkClick() : void {
-    console.log('asdasdsds')
     if(this.mediaQuery === 'xs'){
       this.$store.commit('main/SET_SIDE_BAR', false)
     }

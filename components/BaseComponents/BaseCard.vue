@@ -23,7 +23,7 @@
         <b-card-text>
           <a :href="'tel:'+data.phone">{{data.phone}}</a>
           <br>
-          {{ data.last_name + ' ' + data.first_name + ' ' +  data.patronymic }}
+          {{ FIO }}
           <br>
           <span :class="$style.cardCompany">{{ data.post + ' ' + data.company }}</span>
         </b-card-text>
@@ -54,7 +54,9 @@ const BaseCardsProps = Vue.extend({
   },
 })
 export default class BaseCards extends mixins(BaseCardsProps, TableMixin){
-
+  get FIO() : string{
+    return [this.data.last_name, this.data.first_name, this.data.patronymic].join(' ');
+  }
 }
 </script>
 <style lang="scss" module>
