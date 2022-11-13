@@ -22,6 +22,11 @@ export default class MainModule extends VuexModule {
       title: 'Главная',
     },
     {
+      name: 'imagePicker',
+      icon: 'image',
+      title: 'Изображения',
+    },
+    {
       name: 'production',
       icon: 'tractor',
       title: 'Производство',
